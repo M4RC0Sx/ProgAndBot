@@ -61,8 +61,11 @@ def setup_logging(level: str) -> None:
     # inherit from it. By configuring the root logger, we capture
     # logs from all libraries (like discord.py, httpx, etc.).
     root_logger = logging.getLogger()
+    for h in root_logger.handlers:
+        root_logger.removeHandler(h)
+
     root_logger.addHandler(handler)
     root_logger.setLevel(level)
 
-    logging.getLogger("discord").setLevel(logging.WARNING)
+    logging.getLogger("discord").setLevel(logging.INFO)
     logging.getLogger("websockets").setLevel(logging.WARNING)
