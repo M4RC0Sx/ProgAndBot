@@ -7,16 +7,17 @@ from progandbot.core.config import settings
 from progandbot.core.logging_config import setup_logging
 
 
-def main() -> None:
-    setup_logging(settings.LOG_LEVEL)
+setup_logging(settings.LOG_LEVEL)
+logger = structlog.get_logger(__name__)
 
+
+def main() -> None:
     token = settings.DISCORD_BOT_TOKEN
     bot = ProgAndBot()
 
     try:
-        bot.run(token)
+        bot.run(token, log_handler=None)
     except (KeyboardInterrupt, SystemExit):
-        logger = structlog.get_logger()
         logger.info("Bot stopped.")
 
 
