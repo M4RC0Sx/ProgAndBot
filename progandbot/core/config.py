@@ -21,10 +21,10 @@ class Settings(BaseSettings):
     LOG_LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
 
     POSTGRES_HOST: str = "localhost"
-    POSTGRES_PORT: int = 5432
+    POSTGRES_PORT: int = 5433
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "postgres"
-    POSTGRES_DB: str = "fastapi_backend"
+    POSTGRES_DB: str = "progandbot"
 
     def _build_postgres_uri(self, driver: Literal["asyncpg", "psycopg"]) -> PostgresDsn:
         return PostgresDsn.build(
