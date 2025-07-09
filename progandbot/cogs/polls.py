@@ -133,7 +133,7 @@ class Polls(commands.Cog):
                 for i, answer in enumerate(answers):
                     poll.add_answer(text=answer, emoji=emojis[i])
 
-                await polls_channel.send(poll=poll)
+                await polls_channel.send(poll=poll, content=guild_config.polls_message)
                 await interaction.response.send_message(
                     f"Poll created successfully in {polls_channel.mention}!",
                     ephemeral=True,
