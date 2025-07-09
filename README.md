@@ -44,3 +44,4 @@ Multi-purpose Discord bot for communities management.
 - [ ] Add throw coin command.
 - [ ] Add system to make the bot join a voice channel and play a sound when a user boosts the server with Nitro.
 - [ ] Add user info command.
+- [ ] Make the bot able to send an image on the welcome message.
