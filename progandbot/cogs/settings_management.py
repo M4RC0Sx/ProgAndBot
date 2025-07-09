@@ -143,6 +143,49 @@ class SettingsManagement(commands.GroupCog, group_name="settings"):
             f"Welcome message set to '{message}'", ephemeral=True
         )
 
+    polls_subgroup = app_commands.Group(
+        name="polls",
+        description="Manage polls settings for this server.",
+    )
+
+    @polls_subgroup.command(
+        name="channel", description="Set the polls channel for this server."
+    )
+    @app_commands.describe(channel="The channel to set as the polls channel.")
+    async def set_polls_channel(
+        self, interaction: discord.Interaction, channel: discord.TextChannel
+    ) -> None:
+        if interaction.guild is None:
+            await interaction.response.send_message(
+                "This command can only be used in a server.", ephemeral=True
+            )
+            return
+
+        if not isinstance(channel, discord.TextChannel):
+            await interaction.response.send_message(
+                "You must specify a valid text channel.", ephemeral=True
+            )
+            return
+
+        self.logger.info(
+            "Setting polls channel",
+            guild_id=interaction.guild.id,
+            channel_id=channel.id,
+        )
+
+        async with get_session() as session:
+            guild_config = await session.get(GuildConfig, interaction.guild.id)
+            if not guild_config:
+                guild_config = GuildConfig(guild_id=interaction.guild.id)
+                session.add(guild_config)
+
+            guild_config.polls_channel_id = channel.id
+            await session.commit()
+
+        await interaction.response.send_message(
+            f"Polls channel set to {channel.mention}", ephemeral=True
+        )
+
     @commands.command()
     @commands.is_owner()
     async def sync(self, ctx: commands.Context[commands.Bot]) -> None:
