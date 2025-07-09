@@ -30,3 +30,7 @@ class GuildConfig(SQLModel, table=True):
         default=DEFAULT_WELCOME_MESSAGE,
         sa_column_kwargs={"server_default": DEFAULT_WELCOME_MESSAGE},
     )
+
+    polls_channel_id: int | None = Field(
+        default=None, sa_column=Column(BigInteger, index=True)
+    )
