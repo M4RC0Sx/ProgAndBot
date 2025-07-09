@@ -186,6 +186,49 @@ class SettingsManagement(commands.GroupCog, group_name="settings"):
             f"Polls channel set to {channel.mention}", ephemeral=True
         )
 
+    @polls_subgroup.command(
+        name="message", description="Set the polls message for this server."
+    )
+    @app_commands.describe(message="The message to set as the polls message.")
+    async def set_polls_message(
+        self, interaction: discord.Interaction, message: str
+    ) -> None:
+        if interaction.guild is None:
+            await interaction.response.send_message(
+                "This command can only be used in a server.", ephemeral=True
+            )
+            return
+
+        if len(message) == 0:
+            await interaction.response.send_message(
+                "You must specify non-empty message.", ephemeral=True
+            )
+            return
+        if len(message) > 2000:
+            await interaction.response.send_message(
+                "The message is too long. Please limit it to 2000 characters.",
+                ephemeral=True,
+            )
+            return
+
+        self.logger.info(
+            "Setting polls message",
+            guild_id=interaction.guild.id,
+        )
+
+        async with get_session() as session:
+            guild_config = await session.get(GuildConfig, interaction.guild.id)
+            if not guild_config:
+                guild_config = GuildConfig(guild_id=interaction.guild.id)
+                session.add(guild_config)
+
+            guild_config.polls_message = message
+            await session.commit()
+
+        await interaction.response.send_message(
+            f"Polls message set to '{message}'", ephemeral=True
+        )
+
     @commands.command()
     @commands.is_owner()
     async def sync(self, ctx: commands.Context[commands.Bot]) -> None:
