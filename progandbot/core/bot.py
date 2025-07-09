@@ -17,6 +17,7 @@ class ProgAndBot(commands.Bot):
     def __init__(self) -> None:
         intents = discord.Intents.default()
         intents.message_content = True
+        intents.members = True
         super().__init__(command_prefix=settings.COMMAND_PREFIX, intents=intents)
 
     async def on_ready(self) -> None:
