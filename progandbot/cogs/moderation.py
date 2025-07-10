@@ -207,6 +207,11 @@ class Moderation(commands.Cog):
                         guild_id=interaction.guild.id, user_id=member.id
                     )
                     session.add(user_profile)
+                    self.logger.info(
+                        "Created new user profile",
+                        guild_id=interaction.guild.id,
+                        user_id=member.id,
+                    )
 
                 user_profile.warning_count += 1
                 await session.commit()
