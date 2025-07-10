@@ -36,7 +36,7 @@ Multi-purpose Discord bot for communities management.
 - [ ] Add system for roles management.
 - [ ] Add system to notify when a streamer goes live on Twitch.
 - [ ] Add system to notify when a YouTube channel uploads a new video.
-- [ ] Add user warnings system.
+- [x] Add user warnings system.
 - [ ] Add user score system. With a printable leaderboard.
 - [ ] Add system to allow users to translate between timezones.
 - [ ] Add throw dice command.
