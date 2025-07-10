@@ -18,7 +18,6 @@ RUN poetry install --without dev --no-root --no-interaction && rm -rf $POETRY_CA
 
 FROM python:3.13.5-slim AS runtime
 
-
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"
 
