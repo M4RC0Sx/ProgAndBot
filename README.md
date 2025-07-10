@@ -38,6 +38,40 @@ Multi-purpose Discord bot for communities management.
    docker run -d --name progandbot --env-file .env progandbot
    ```
 
+### Docker Compose
+You can also use Docker Compose to run the bot. Create a `docker-compose.yml` file with the following content:
+
+```yaml
+services:
+  progandbot:
+    build: .
+    env_file: .env
+    restart: unless-stopped
+
+  db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: progandbot
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+
+```
+
+Then run:
+```bash
+docker-compose up -d
+```
+
 ## TODO List
 - [x] Add configuration system for the bot.
 - [x] Add configuration system for each server.
