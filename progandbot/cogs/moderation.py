@@ -6,6 +6,9 @@ import structlog
 from discord import app_commands
 from discord.ext import commands
 
+from progandbot.db.models.user_profile import UserProfile
+from progandbot.db.session import get_session
+
 
 logger = structlog.get_logger(__name__)
 
@@ -157,6 +160,91 @@ class Moderation(commands.Cog):
         except Exception as e:
             await interaction.response.send_message(
                 f"An error occurred while trying to ban the member: {e!s}",
+                ephemeral=True,
+            )
+
+    @app_commands.command(
+        name="warn",
+        description="Warn a member in the server.",
+    )
+    @app_commands.describe(
+        member="The member to ban from the server.",
+        reason="The reason for banning the member.",
+    )
+    @app_commands.default_permissions(kick_members=True)
+    async def warn_member(
+        self,
+        interaction: discord.Interaction,
+        member: discord.Member,
+        reason: str = "Unspecified reason",
+    ) -> None:
+        if interaction.guild is None:
+            await interaction.response.send_message(
+                "This command can only be used in a server.", ephemeral=True
+            )
+            return
+        if interaction.channel is None or not isinstance(
+            interaction.channel, discord.TextChannel
+        ):
+            await interaction.response.send_message(
+                "This command can only be used in a text channel.", ephemeral=True
+            )
+            return
+
+        if member == interaction.user:
+            await interaction.response.send_message(
+                "You cannot warn yourself!", ephemeral=True
+            )
+            return
+
+        try:
+            async with get_session() as session:
+                user_profile = await session.get(
+                    UserProfile, (interaction.guild.id, member.id)
+                )
+                if not user_profile:
+                    user_profile = UserProfile(
+                        guild_id=interaction.guild.id, user_id=member.id
+                    )
+                    session.add(user_profile)
+
+                user_profile.warning_count += 1
+                await session.commit()
+
+            assert self.bot.user is not None, "Bot user is not initialized"
+            embed = (
+                discord.Embed(
+                    title="Moderation: Member Warned",
+                    description=f"{member.mention} has been warned.",
+                    color=discord.Color.red(),
+                    timestamp=discord.utils.utcnow(),
+                )
+                .set_thumbnail(url=member.display_avatar.url)
+                .set_footer(
+                    text="ProgAndBot Moderation",
+                    icon_url=interaction.user.display_avatar.url,
+                )
+                .add_field(
+                    name="Warned By", value=interaction.user.mention, inline=True
+                )
+                .set_image(
+                    url="https://media.tenor.com/sLgNruA4tsgAAAAM/warning-lights.gif"
+                )
+            )
+            if reason:
+                embed.add_field(name="Reason", value=reason, inline=True)
+            await interaction.channel.send(embed=embed)
+
+            await interaction.response.send_message(
+                f"Successfully warned {member.mention}."
+            )
+        except discord.Forbidden:
+            await interaction.response.send_message(
+                "I do not have permission to warn this member.", ephemeral=True
+            )
+        except Exception as e:
+            await interaction.response.send_message(
+                f"An error occurred while trying to warn the member: {e!s}",
                 ephemeral=True,
             )
 
