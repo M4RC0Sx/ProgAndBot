@@ -27,6 +27,17 @@ Multi-purpose Discord bot for communities management.
 5. Invite the bot to your server using the OAuth2 URL generated in the Discord Developer Portal.
 6. If you add or modify a slash command, you need to restart the bot and run the command `!sync`.
 
+## Running as a Docker container
+1. Build the Docker image:
+   ```bash
+   docker build -t progandbot .
+   ```
+2. Create a `.env` file with the variables you need to change from `progandbot/core/config.py`.
+3. Run the Docker container:
+   ```bash
+   docker run -d --name progandbot --env-file .env progandbot
+   ```
+
 ## TODO List
 - [x] Add configuration system for the bot.
 - [x] Add configuration system for each server.
@@ -45,3 +56,4 @@ Multi-purpose Discord bot for communities management.
 - [ ] Add system to make the bot join a voice channel and play a sound when a user boosts the server with Nitro.
 - [ ] Add user info command.
 - [ ] Make the bot able to send an image on the welcome message.
+- [x] User message count tracking.
