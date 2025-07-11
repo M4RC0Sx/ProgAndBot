@@ -2,9 +2,12 @@ from __future__ import annotations
 
 from sqlalchemy import BigInteger
 from sqlalchemy import Column
+from sqlalchemy import Enum
 from sqlalchemy import String
 from sqlmodel import Field
 from sqlmodel import SQLModel
+
+from progandbot.core.enums import SupportedLanguage
 
 
 DEFAULT_WELCOME_MESSAGE = (
@@ -20,6 +23,15 @@ class GuildConfig(SQLModel, table=True):
     guild_id: int | None = Field(
         default=None,
         sa_column=Column(BigInteger, primary_key=True, autoincrement=False),
+    )
+
+    language: SupportedLanguage = Field(
+        default=SupportedLanguage.EN,
+        sa_column=Column(
+            Enum(SupportedLanguage, values_callable=lambda x: [e.value for e in x]),
+            nullable=False,
+            server_default=SupportedLanguage.EN.value,
+        ),
     )
 
     welcome_enabled: bool = Field(
