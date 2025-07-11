@@ -89,6 +89,7 @@ docker-compose up -d
 - [ ] Add throw coin command.
 - [ ] Add system to make the bot join a voice channel and play a sound when a user boosts the server with Nitro.
 - [ ] Add user info command.
+- [ ] Add user level/xp progress bar to the user info command output.
 - [ ] Make the bot able to send an image on the welcome message.
 - [x] User message count tracking.
 - [x] Multilanguage support, configurable by the server.
