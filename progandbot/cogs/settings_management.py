@@ -93,19 +93,19 @@ class SettingsManagement(commands.GroupCog, group_name="settings"):
             enabled=enabled,
         )
 
+        guild_id = interaction.guild.id
         async with get_session() as session:
-            guild_config = await session.get(GuildConfig, interaction.guild.id)
+            guild_config = await session.get(GuildConfig, guild_id)
             if not guild_config:
-                guild_config = GuildConfig(guild_id=interaction.guild.id)
+                guild_config = GuildConfig(guild_id=guild_id)
                 session.add(guild_config)
 
             guild_config.welcome_enabled = enabled
             await session.commit()
 
-        await interaction.response.send_message(
-            f"Welcome messages set to {'enabled' if enabled else 'disabled'}",
-            ephemeral=True,
-        )
+        msg_key = "welcome.set_enabled" if enabled else "welcome.set_disabled"
+        response_msg = await self.bot.translator.get_translated_str(guild_id, msg_key)
+        await interaction.response.send_message(response_msg, ephemeral=True)
 
     @welcome_subgroup.command(
         name="channel", description="Set the welcome channel for this server."
