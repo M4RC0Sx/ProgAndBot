@@ -1,0 +1,8 @@
+{
+    "enabled": "activado(s)",
+    "disabled": "desactivado(s)",
+    "welcome": {
+        "set_enabled": "Mensajes de bienvenida **ACTIVADOS**.",
+        "set_disabled": "Mensajes de bienvenida **DESACTIVADOS**."
+    }
+}

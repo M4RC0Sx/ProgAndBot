@@ -1,0 +1,8 @@
+{
+    "enabled": "enabled",
+    "disabled": "disabled",
+    "welcome": {
+        "set_enabled": "Welcome messages **ENABLED**.",
+        "set_disabled": "Welcome messages **DISABLED**."
+    }
+}
