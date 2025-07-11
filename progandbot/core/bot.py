@@ -8,6 +8,7 @@ import structlog
 from discord.ext import commands
 
 from progandbot.core.config import settings
+from progandbot.core.i18n import I18nManager
 
 
 logger = structlog.get_logger(__name__)
@@ -19,6 +20,8 @@ class ProgAndBot(commands.Bot):
         intents.message_content = True
         intents.members = True
         super().__init__(command_prefix=settings.COMMAND_PREFIX, intents=intents)
+
+        self.translator = I18nManager()
 
     async def on_ready(self) -> None:
         assert self.user is not None, "Bot user is not initialized"
