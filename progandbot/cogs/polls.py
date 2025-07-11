@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 import discord
 import structlog
@@ -12,11 +13,15 @@ from progandbot.db.models.guild_config import GuildConfig
 from progandbot.db.session import get_session
 
 
+if TYPE_CHECKING:
+    from progandbot.core.bot import ProgAndBot
+
+
 logger = structlog.get_logger(__name__)
 
 
 class Polls(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self, bot: ProgAndBot) -> None:
         self.bot = bot
         self.logger = logger.bind(cog_name=self.__class__.__name__)
 
@@ -60,16 +65,12 @@ class Polls(commands.Cog):
         allow_multiple: bool = False,
     ) -> None:
         if interaction.guild is None:
-            await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
-            )
+            await self.bot.send_guild_only_or_error(interaction)
             return
         if interaction.channel is None or not isinstance(
             interaction.channel, discord.TextChannel
         ):
-            await interaction.response.send_message(
-                "This command can only be used in a text channel.", ephemeral=True
-            )
+            await self.bot.send_text_channel_only_error(interaction)
             return
 
         async with get_session() as session:
@@ -163,5 +164,5 @@ class Polls(commands.Cog):
                 return
 
 
-async def setup(bot: commands.Bot) -> None:
+async def setup(bot: ProgAndBot) -> None:
     await bot.add_cog(Polls(bot))
