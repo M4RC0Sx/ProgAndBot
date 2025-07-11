@@ -22,6 +22,44 @@ class SettingsManagement(commands.GroupCog, group_name="settings"):
 
         self.logger.info(f"Initialized {self.__class__.__name__} cog")
 
+    @app_commands.command(
+        name="language", description="Set the bot language for this server."
+    )
+    @app_commands.describe(language="The language to set for the bot.")
+    async def set_language(
+        self, interaction: discord.Interaction, language: SupportedLanguage
+    ) -> None:
+        if interaction.guild is None:
+            await interaction.response.send_message(
+                "This command can only be used in a server.", ephemeral=True
+            )
+            return
+
+        if language not in SupportedLanguage:
+            await interaction.response.send_message(
+                f"Invalid language. Supported languages are {', '.join(e.value for e in SupportedLanguage)}.",
+            )
+            return
+
+        self.logger.info(
+            "Setting bot language",
+            guild_id=interaction.guild.id,
+            language=language,
+        )
+
+        async with get_session() as session:
+            guild_config = await session.get(GuildConfig, interaction.guild.id)
+            if not guild_config:
+                guild_config = GuildConfig(guild_id=interaction.guild.id)
+                session.add(guild_config)
+
+            guild_config.language = language
+            await session.commit()
+
+        await interaction.response.send_message(
+            f"Bot language set to '{language.value}'", ephemeral=True
+        )
+
     welcome_subgroup = app_commands.Group(
         name="welcome",
         description="Manage welcome settings for this server.",
