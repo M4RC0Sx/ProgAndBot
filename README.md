@@ -83,7 +83,7 @@ docker-compose up -d
 - [ ] Add system to notify when a YouTube channel uploads a new video.
 - [x] Add user warnings system.
 - [ ] Add user score system. With a printable leaderboard.
-- [ ] Add system to allow users to translate between timezones.
+- [ ] Add system to allow users to convert between timezones.
 - [ ] Add throw dice command.
 - [ ] Add system to allow users to play rock-paper-scissors.
 - [ ] Add throw coin command.
