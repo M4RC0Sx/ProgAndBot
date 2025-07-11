@@ -15,6 +15,8 @@ from progandbot.core.config import settings
 project_root = Path(__file__).parent.parent
 sys.path.append(str(project_root))
 
+import alembic_postgresql_enum  # noqa: E402, F401
+
 from alembic import context  # noqa: E402
 from progandbot.db import models  # noqa: E402, F401
 
