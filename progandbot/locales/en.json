@@ -1,5 +1,7 @@
 {
     "enabled": "enabled",
+    "error_cmd_guild_only": "This command can only be used in a server.",
+    "error_cmd_text_channel_only": "This command can only be used in a text channel.",
     "disabled": "disabled",
     "welcome": {
         "set_enabled": "Welcome messages **ENABLED**.",
