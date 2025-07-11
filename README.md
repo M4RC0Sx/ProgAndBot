@@ -91,3 +91,5 @@ docker-compose up -d
 - [ ] Add user info command.
 - [ ] Make the bot able to send an image on the welcome message.
 - [x] User message count tracking.
+- [x] Multilanguage support, configurable by the server.
+- [ ] Handle all messages with i18n translations.
