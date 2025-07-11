@@ -1,13 +1,20 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import discord
 import structlog
 
 from discord import app_commands
 from discord.ext import commands
 
+from progandbot.core.enums import SupportedLanguage
 from progandbot.db.models.guild_config import GuildConfig
 from progandbot.db.session import get_session
+
+
+if TYPE_CHECKING:
+    from progandbot.core.bot import ProgAndBot
 
 
 logger = structlog.get_logger(__name__)
@@ -16,7 +23,7 @@ logger = structlog.get_logger(__name__)
 @app_commands.default_permissions(administrator=True)
 @app_commands.guild_only()
 class SettingsManagement(commands.GroupCog, group_name="settings"):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self, bot: ProgAndBot) -> None:
         self.bot = bot
         self.logger = logger.bind(cog_name=self.__class__.__name__)
 
@@ -279,5 +286,5 @@ class SettingsManagement(commands.GroupCog, group_name="settings"):
             await ctx.send(f"Failed to sync application commands: {e}")
 
 
-async def setup(bot: commands.Bot) -> None:
+async def setup(bot: ProgAndBot) -> None:
     await bot.add_cog(SettingsManagement(bot))
