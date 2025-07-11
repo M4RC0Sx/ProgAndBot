@@ -41,3 +41,22 @@ class ProgAndBot(commands.Bot):
             except Exception as e:
                 logger.error(f"Failed to load cog {file.name}", error=str(e))
                 raise e
+
+    async def send_guild_only_or_error(self, interaction: discord.Interaction) -> None:
+        await interaction.response.send_message(
+            "This command can only be used in a server.", ephemeral=True
+        )
+        return
+
+    async def send_text_channel_only_error(
+        self, interaction: discord.Interaction
+    ) -> None:
+        if not interaction.guild:
+            await self.send_guild_only_or_error(interaction)
+            return
+
+        guild_id = interaction.guild.id
+        translated_msg = await self.translator.get_translated_str(
+            guild_id, "error_cmd_text_channel_only"
+        )
+        await interaction.response.send_message(translated_msg, ephemeral=True)
