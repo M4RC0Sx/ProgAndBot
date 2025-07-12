@@ -88,7 +88,7 @@ docker-compose up -d
 - [ ] Add system to allow users to play rock-paper-scissors.
 - [ ] Add throw coin command.
 - [ ] Add system to make the bot join a voice channel and play a sound when a user boosts the server with Nitro.
-- [ ] Add user info command.
+- [x] Add user info command.
 - [ ] Add user level/xp progress bar to the user info command output.
 - [ ] Make the bot able to send an image on the welcome message.
 - [x] User message count tracking.
