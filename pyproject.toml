@@ -26,6 +26,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.12.2"
 mypy = "^1.16.1"
+pytest = "^8.4.1"
+pytest-asyncio = "^1.0.0"
+aiosqlite = "^0.21.0"
 
 
 [tool.ruff]
