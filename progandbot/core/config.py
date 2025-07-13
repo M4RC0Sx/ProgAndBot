@@ -26,6 +26,12 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = "postgres"
     POSTGRES_DB: str = "progandbot"
 
+    TWITCH_CLIENT_ID: str
+    TWITCH_CLIENT_SECRET: str
+    TWITCH_USERNAME: str
+
+    NOTIFICATIONS_CHANNEL_ID: int = 1394023492344873120
+
     def _build_postgres_uri(self, driver: Literal["asyncpg", "psycopg"]) -> PostgresDsn:
         return PostgresDsn.build(
             scheme=f"postgresql+{driver}",
