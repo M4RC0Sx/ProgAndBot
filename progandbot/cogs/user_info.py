@@ -33,8 +33,7 @@ class UserInfo(commands.Cog):
     @app_commands.describe(
         target_user="User to get info for. Defaults to the user who invoked the command.",
     )
-    @app_commands.default_permissions(manage_messages=True)
-    async def create_poll(
+    async def user_info(
         self,
         interaction: discord.Interaction,
         target_user: discord.Member | discord.User | None = None,

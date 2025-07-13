@@ -28,7 +28,6 @@ class UserUtilities(commands.Cog):
         name="dice",
         description="Roll a dice and get a random number between 1 and 6.",
     )
-    @app_commands.default_permissions()
     async def dice(
         self,
         interaction: discord.Interaction,
@@ -74,7 +73,6 @@ class UserUtilities(commands.Cog):
         name="coinflip",
         description="Flip a coin and get either Heads or Tails.",
     )
-    @app_commands.default_permissions()
     async def coinflip(
         self,
         interaction: discord.Interaction,
