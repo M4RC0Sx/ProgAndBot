@@ -79,7 +79,7 @@ docker-compose up -d
 - [x] Add moderation basic commands.
 - [x] Add polls system.
 - [ ] Add system for roles management.
-- [ ] Add system to notify when a streamer goes live on Twitch.
+- [x] Add system to notify when a streamer goes live on Twitch.
 - [ ] Add system to notify when a YouTube channel uploads a new video.
 - [x] Add user warnings system.
 - [ ] Add user score system. With a printable leaderboard.
