@@ -84,9 +84,9 @@ docker-compose up -d
 - [x] Add user warnings system.
 - [ ] Add user score system. With a printable leaderboard.
 - [ ] Add system to allow users to convert between timezones.
-- [ ] Add throw dice command.
+- [x] Add throw dice command.
 - [ ] Add system to allow users to play rock-paper-scissors.
-- [ ] Add throw coin command.
+- [x] Add throw coin command.
 - [ ] Add system to make the bot join a voice channel and play a sound when a user boosts the server with Nitro.
 - [x] Add user info command.
 - [ ] Add user level/xp progress bar to the user info command output.
